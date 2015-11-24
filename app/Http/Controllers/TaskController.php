@@ -17,7 +17,7 @@ class TaskController extends Controller
      */
     public function index()
     {
-       return Task::all();
+        return Task::all();
     }
 
     /**
@@ -33,16 +33,14 @@ class TaskController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
         $task = new Task();
 
-        $task->name = $request->name;
-        $task->priority = $request->priority;
-        $task->done = $request->done;
+        $this->saveTask($request, $task);
 
         $task->save();
     }
@@ -50,7 +48,7 @@ class TaskController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -61,7 +59,7 @@ class TaskController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -72,23 +70,38 @@ class TaskController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \Illuminate\Http\Request $request
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
     {
-        //
+        $task = Task::findOrFail($id);
+
+        $this->saveTask($request, $task);
+
+        $task->save();
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
-        //
+        Task::destroy($id);
+    }
+
+    /**
+     * @param Request $request
+     * @param $task
+     */
+    public function saveTask(Request $request, $task)
+    {
+        $task->name = $request->name;
+        $task->priority = $request->priority;
+        $task->done = $request->done;
     }
 }
