@@ -14,3 +14,8 @@
 Route::get('/', function () {
     return view('welcome');
 });
+
+
+Route::resource('task', 'TaskController');
+
+Route::resource('tag', 'TagController');
