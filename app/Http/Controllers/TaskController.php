@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Response;
 
 class TaskController extends Controller
 {
@@ -17,7 +18,13 @@ class TaskController extends Controller
      */
     public function index()
     {
-        return Task::all();
+
+        $task = Task::all();
+
+        return \Response::json([
+            'data' => $task->toArray()
+        ], 200);
+
     }
 
     /**
@@ -53,7 +60,20 @@ class TaskController extends Controller
      */
     public function show($id)
     {
-        //
+
+        $task = Task::find($id);
+
+        if(!$task) {
+            return Response::json([
+                'error' => [
+                    'message'=> 'Task not fount',
+                    'code'=> 195
+                ]
+            ], 404);    
+        }
+
+
+
     }
 
     /**
