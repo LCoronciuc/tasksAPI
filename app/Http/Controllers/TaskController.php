@@ -69,10 +69,13 @@ class TaskController extends Controller
                     'message'=> 'Task not fount',
                     'code'=> 195
                 ]
-            ], 404);    
+            ], 404);
         }
 
 
+        return Response::json([
+           'data' => $task->toArray()
+        ], 200);
 
     }
 
